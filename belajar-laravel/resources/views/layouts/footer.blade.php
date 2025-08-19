@@ -1,14 +1,14 @@
  <style>
         .footer{
-            position: absolute;
+            position: fixed;
             bottom: 0;
             right: 0;
-            height: 50px;
+            height: 45px;
             width: 100%;
             background-color: #303030;
             color: #fefefe;
             text-align: center;
-            line-height: 50px;
+            line-height: 45px;
         }
 </style>
 <div class="footer">
