@@ -57,14 +57,41 @@ class ProdukController extends Controller
     }
 
     public function show($id){
-        // perintah
-        // eleqent orm
+        $produk = Produk::find($id);
+        if (!$produk) {
+            return redirect('/product')->with('error', 'Produk tidak ditemukan!');
+        }
+        return view('pages.produk.detail', ['produk' => $produk]);
+    }
+
+    public function edit($id){
         $data = produk::findOrFail($id);
 
-        //query builder
-        //DB::table('tb_produk')->where('id_produk',$id)->firstOrFail();
+        return view('pages.produk.edit', [
+            'data'=>$data,
+        ]);
+    }
 
-        return view('pages.produk.detail',$data);
+    public function update($id,Request $request){
+         // Validasi
+        $request->validate([
+            'nama_produk' => 'required|min:8', // nama produk wajib diisi
+            'harga_produk' => 'required',
+            'deskripsi' => 'required',
+        ],
+        [
+           'nama_produk.min' => 'Nama produk minimal 8 karakter',
+           'nama_produk.required' => 'inputan nama produk wajib diisi',
+           'harga_produk.required' => 'inputan harga produk wajib diisi',
+           'deskripsi.required' => 'inputan deskripsi produk wajib diisi',
+        ]);
+
+        produk::where('id_produk', $id)->update ([
+            'nama_produk'=>$request->nama_produk,
+            'harga'=>$request->harga_produk,
+            'deskripsi_produk'=>$request->deskripsi,
+        ]);
+
+        return redirect('product')->with('message', 'data berhasil di edit');
     }
 }
-

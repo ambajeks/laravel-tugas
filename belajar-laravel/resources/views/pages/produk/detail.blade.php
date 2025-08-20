@@ -1,43 +1,24 @@
 @extends('layouts.master')
 
 @section('konten')
-<h1>Detail Produk Kami</h1>
-<hr>
-
-   <div class="card">
-    <div class="card-header">
-       Detail Produk
-    </div>
-
-  
+    <h1>Detail Produk</h1>
+    <hr>
+    <div class="card">
+        <div class="card-header">
+            Detail Produk
+        </div>
   <div class="card-body">
-    <table class="table table-striped table-bordered">
-  <thead>
-    <tr>
-      <th scope="col">No</th>
-      <th scope="col">Nama Produk</th>
-      <th scope="col">Harga</th>
-      <th scope="col">Deskripsi</th>
-      <th scope="col">Aksi</th>
-    </tr>
-  </thead>
-  <tbody>
-    @foreach ($data_produk as $item)
-    <tr>
-      <th scope="row">{{ $loop->iteration }}</th>
-      <td>{{ $item->nama_produk }}</td>
-      <td>{{ $item->harga }}</td>
-      <td>{{ $item->deskripsi_produk }}</td>
-      <td>
-        <button type="button" class="btn btn-danger">Hapus</button>
-        <button type="button" class="btn btn-warning">Edit</button>
-        <a href="/produk/{{$item->id_produk}}" class="btn btn-info">Detail</a>
-      </td>
-    </tr>
-    @endforeach
-    
-  </tbody>
-</table>
-  </div>
+    <img src="https://placehold.co/600x400" class="img-fluid" alt="">
+    <p>Nama Produk : {{ $produk->nama_produk }}</p>
+    <p>Harga : Rp. {{ $produk->harga }}</p>
+    <p>Deskripsi : {{ $produk->deskripsi_produk }}</p>
+    <p>Kategori : Barang Elektronik </p>
+    <p>Stok : Tersedia 3 </p>
+    <form action="/product/{{ $produk->id_produk }}" method="POST" style="display:inline" onsubmit="return confirm('Yakin ingin menghapus data ini?')">
+        @csrf
+        @method('DELETE')
+        <button type="submit" class="btn btn-danger">Hapus Produk</button>
+    </form>
+    <a href="/product" class="btn btn-primary mt-2">Kembali Ke Produk</a>
 </div>
 @endsection
