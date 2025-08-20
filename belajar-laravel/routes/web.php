@@ -23,7 +23,9 @@ Route::get('/product/create',[ProdukController::class, 'create']); // menampilka
 
 Route::post('/product', [ProdukController::class, 'store']); // untuk mengelola data yang telah dikirim dari halaman form data
 
-Route::get('/produk/{id}', [ProdukController::class, 'show']);
+Route::get('/product/{id}', [ProdukController::class, 'show']);
 
 Route::get('/product/{id}/edit', [ProdukController::class, 'edit']); // menampilkan form edit data
 Route::put('/product/{id}', [ProdukController::class, 'update']); // mengelola data yang telah dikirim dari halaman form edit data
+
+Route::delete('/product/{id}', [ProdukController::class, 'destroy']); // menghapus data produk

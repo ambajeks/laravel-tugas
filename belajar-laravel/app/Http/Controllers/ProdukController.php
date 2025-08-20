@@ -5,17 +5,23 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Produk;
 use Illuminate\Support\Facades\DB;
+use function Laravel\Prompts\search;
 
 class ProdukController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         $toko = [
             'nama_toko'=> 'Toko Jeknjt',
             'alamat' => 'Jl israel Hama hutabarat',
             'type' => 'Ruko'
         ];
-        $produk = Produk::get(); // query untuk mengambil semua data tb_produk
+
+        $search = $request->keyword;
+
+        $produk = produk::when($search, function($query, $search){
+            return $query->where ('nama_produk', 'like', "%{$search}%")->orWhere('deskripsi_produk', 'like', "%{$search}%");
+        })->get(); // query untuk mengambil semua data tb_produk
         //$queryBuilder = DB::table('tb_produk')->get();
 
         return view('pages.produk.show',[
@@ -93,5 +99,11 @@ class ProdukController extends Controller
         ]);
 
         return redirect('product')->with('message', 'data berhasil di edit');
+    }
+
+    public function destroy($id){
+        produk::findOrFail($id)->delete();
+        return redirect('/product')->with('message', 'Data produk berhasil dihapus!');
+
     }
 }
